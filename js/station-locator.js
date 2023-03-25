@@ -43,50 +43,100 @@ marker.on('dragend', function(e){
     })
 });
 
+function geoCodeBuildWeather(searchString) {
+    let html = "";
+    geocode(searchString, mapBoxKey).then(function (results) {
+        let myOptionsObj = {
+            center: results,
+            zoom: 15
+        };
+        map.flyTo(myOptionsObj);
+        marker.setLngLat(results);
 
-const geocoder = new MapboxGeocoder({
-    // Initialize the geocoder
-    accessToken: mapboxgl.accessToken, // Set the access token
-    mapboxgl: mapboxgl, // Set the mapbox-gl instance
-    marker: false, // Do not use the default marker style
-    placeholder: 'Search for places in San Antonio', // Placeholder text for the search bar
-    bbox: [-98.8787, 29.3555, -97.9653, 29.5689], // Boundary for San Antonio
-    proximity: {
-        longitude: -98.4946,
-        latitude: 29.4252
-    } // Coordinates of San Antonio
-});
-29.35554277897762, -98.87873296826862
+        $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${fuelStationsKey}&longitude=${longlat.lng}&latitude=${longlat.lat}&type=GAS_STATION`).done(function (data) {
+            for (let i = 0; i <= 4; i++) {
+                const station = data.features[i];
+                const lngLat = station.geometry.coordinates;
+                const name = station.properties.station_name;
+                const address = station.properties.street_address;
+                const fuelType = station.properties.fuel_type_code;
+                const distance = station.properties.distance;
+
+                if (fuelType === "CNG" || fuelType === "ELEC" || fuelType === "HY") { // check if fuel type is GAS or ELEC
+                    // Create a marker for the station
+                    const stationMarker = new mapboxgl.Marker()
+                        .setLngLat(lngLat)
+                        .addTo(map);
+
+                    // Create a popup for the station
+                    const popup = new mapboxgl.Popup()
+                        .setHTML(`<h3>${name}</h3><p>Address: ${address}</p><p>Fuel type: ${fuelType}</p><p>Distance: ${distance} miles</p>`);
+
+                    // Attach the popup to the marker
+                    stationMarker.setPopup(popup);
+                }
+            }
+        })
+    })
+
+
+    function onDragEnd() {
+        let lngLat = marker.getLngLat();
+        let arrStation = [lngLat.lng, lngLat.lat];
+        searchStation(arrStation)
+
+    }
+
+    marker.on('dragend', onDragEnd);
+
+
+    const geocoder = new MapboxGeocoder({
+        // Initialize the geocoder
+        accessToken: mapboxgl.accessToken, // Set the access token
+        mapboxgl: mapboxgl, // Set the mapbox-gl instance
+        marker: false, // Do not use the default marker style
+        placeholder: 'Search for places in San Antonio', // Placeholder text for the search bar
+        bbox: [-98.8787, 29.3555, -97.9653, 29.5689], // Boundary for San Antonio
+        proximity: {
+            longitude: -98.4946,
+            latitude: 29.4252
+        } // Coordinates of San Antonio
+    });
+    29.35554277897762, -98.87873296826862
 // Add the geocoder to the map
-map.addControl(geocoder);
+    map.addControl(geocoder);
 
 // After the map style has loaded on the page,
 // add a source layer and default styling for a single point
-map.on('load', () => {
-    map.addSource('single-point', {
-        'type': 'geojson',
-        'data': {
-            'type': 'FeatureCollection',
-            'features': []
-        }
-    });
+    map.on('load', () => {
+        map.addSource('single-point', {
+            'type': 'geojson',
+            'data': {
+                'type': 'FeatureCollection',
+                'features': []
+            }
+        });
 
-    map.addLayer({
-        'id': 'point',
-        'source': 'single-point',
-        'type': 'circle',
-        'paint': {
-            'circle-radius': 10,
-            'circle-color': '#448ee4'
-        }
-    });
+        map.addLayer({
+            'id': 'point',
+            'source': 'single-point',
+            'type': 'circle',
+            'paint': {
+                'circle-radius': 10,
+                'circle-color': '#448ee4'
+            }
+        });
 
-    // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
-    //  Add a marker at the result's coordinates
-    geocoder.on('result', (event) => {
-        map.getSource('single-point').setData(event.result.geometry);
+        // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
+        //  Add a marker at the result's coordinates
+        geocoder.on('result', (event) => {
+            map.getSource('single-point').setData(event.result.geometry);
+        });
+
     });
-});
+}
+
+
 
 
 
