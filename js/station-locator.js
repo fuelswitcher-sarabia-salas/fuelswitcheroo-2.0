@@ -1,9 +1,9 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGFuaWVsYXBzYWxhcyIsImEiOiJjbGY4Zm44bGMxdWc1M3NwcTc0MWZibTc2In0.6iGsy1lzft4y0wKf84nNaA';
+mapboxgl.accessToken = mapBoxKey;
 
 const map = new mapboxgl.Map({
     container: 'map', // Container ID
     style: 'mapbox://styles/mapbox/streets-v12', // Map style to use
-    center: [98.4946, 29.4252], // Starting position [lng, lat]
+    center: [-98.4946, 29.4252], // Starting position [lng, lat]
     zoom: 12 // Starting zoom level
 });
 
@@ -53,4 +53,13 @@ map.on('load', () => {
     geocoder.on('result', (event) => {
         map.getSource('single-point').setData(event.result.geometry);
     });
+});
+
+marker.on('dragend', function(e){
+    let html = "";
+    let longlat = e.target._lngLat;
+    console.log($.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1.json?limit=1&api_key=${fuelStationsKey}`));
+    $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1.json?limit=1&api_key=${fuelStationsKey}`).done(function (data) {
+        console.log(data);
+    })
 });
