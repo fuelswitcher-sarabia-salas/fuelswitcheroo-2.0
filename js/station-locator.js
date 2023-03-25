@@ -20,13 +20,29 @@ marker.on('dragend', function(e){
     console.log(longlat)
     console.log( $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}`));
     $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}`).done(function (data) {
-        for(let i = 0; i <= 5; i++) {
-            console.log(`${data.features[i].geometry.coordinates}`)
+        for(let i = 0; i < data.features.length; i++) {
+            const station = data.features[i];
+            const lngLat = station.geometry.coordinates;
+            const name = station.properties.station_name;
+            const address = station.properties.street_address;
+            const fuelType = station.properties.fuel_type_code;
+            const distance = station.properties.distance;
+
+            // Create a marker for the gas station
+            const stationMarker = new mapboxgl.Marker()
+                .setLngLat(lngLat)
+                .addTo(map);
+
+            // Create a popup for the gas station
+            const popup = new mapboxgl.Popup()
+                .setHTML(`<h3>${name}</h3><p>Address: ${address}</p><p>Fuel type: ${fuelType}</p><p>Distance: ${distance} miles</p>`);
+
+            // Attach the popup to the marker
+            stationMarker.setPopup(popup);
         }
-        $("#weatherBody").html(html);
-        html ="";
     })
 });
+
 
 const geocoder = new MapboxGeocoder({
     // Initialize the geocoder
@@ -71,4 +87,9 @@ map.on('load', () => {
         map.getSource('single-point').setData(event.result.geometry);
     });
 });
+
+
+
+
+
 
