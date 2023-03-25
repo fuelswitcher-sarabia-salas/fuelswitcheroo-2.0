@@ -18,10 +18,10 @@ marker.on('dragend', function(e){
     let html = "";
     let longlat = e.target._lngLat;
     console.log(longlat)
-    console.log( $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${fuelStationsKey}&longitude=${longlat.lng}&latitude=${longlat.lat}`));
-    $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1.json?limit=1&api_key=${fuelStationsKey}`).done(function (data) {
+    console.log( $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}`));
+    $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1.json?limit=1&api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}`).done(function (data) {
         for( var i = 0; i <= 5; i++) {
-            html += '<div>${data.} </div>'
+            html += `<div>${data.features[i]}</div>`
         }
     })
 });
