@@ -7,21 +7,36 @@ const map = new mapboxgl.Map({
     zoom: 12 // Starting zoom level
 });
 
-const marker = new mapboxgl.Marker() // Initialize a new marker
-    .setLngLat([98.4946, 29.4252]) // Marker [lng, lat] coordinates
+const marker = new mapboxgl.Marker ({ // Initialize a new marker
+    draggable: true
+})
+    .setLngLat([-98.491142,29.424349])// Marker [lng, lat] coordinates
     .addTo(map); // Add the marker to the map
+
+marker.on('dragend', function(e){
+    console.log(marker)
+    let html = "";
+    let longlat = e.target._lngLat;
+    console.log(longlat)
+    console.log( $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${fuelStationsKey}&longitude=${longlat.lng}&latitude=${longlat.lat}`));
+    $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1.json?limit=1&api_key=${fuelStationsKey}`).done(function (data) {
+        for( var i = 0; i <= 5; i++) {
+            html += '<div>${data.} </div>'
+        }
+    })
+});
 
 const geocoder = new MapboxGeocoder({
     // Initialize the geocoder
     accessToken: mapboxgl.accessToken, // Set the access token
     mapboxgl: mapboxgl, // Set the mapbox-gl instance
     marker: false, // Do not use the default marker style
-    placeholder: 'Search for places in Berkeley', // Placeholder text for the search bar
+    placeholder: 'Search for places in San Antonio', // Placeholder text for the search bar
     bbox: [-122.30937, 37.84214, -122.23715, 37.89838], // Boundary for Berkeley
     proximity: {
-        longitude: 98.4946,
+        longitude: -98.4946,
         latitude: 29.4252
-    } // Coordinates of UC Berkeley
+    } // Coordinates of San Antonio
 });
 
 // Add the geocoder to the map
@@ -55,11 +70,3 @@ map.on('load', () => {
     });
 });
 
-marker.on('dragend', function(e){
-    let html = "";
-    let longlat = e.target._lngLat;
-    console.log($.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1.json?limit=1&api_key=${fuelStationsKey}`));
-    $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1.json?limit=1&api_key=${fuelStationsKey}`).done(function (data) {
-        console.log(data);
-    })
-});
