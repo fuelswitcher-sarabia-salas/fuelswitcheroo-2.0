@@ -19,10 +19,12 @@ marker.on('dragend', function(e){
     let longlat = e.target._lngLat;
     console.log(longlat)
     console.log( $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}`));
-    $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1.json?limit=1&api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}`).done(function (data) {
-        for( var i = 0; i <= 5; i++) {
-            html += `<div>${data.features[i]}</div>`
+    $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}`).done(function (data) {
+        for(let i = 0; i <= 5; i++) {
+            console.log(`${data.features[i].geometry.coordinates}`)
         }
+        $("#weatherBody").html(html);
+        html ="";
     })
 });
 
@@ -32,13 +34,13 @@ const geocoder = new MapboxGeocoder({
     mapboxgl: mapboxgl, // Set the mapbox-gl instance
     marker: false, // Do not use the default marker style
     placeholder: 'Search for places in San Antonio', // Placeholder text for the search bar
-    bbox: [-122.30937, 37.84214, -122.23715, 37.89838], // Boundary for Berkeley
+    bbox: [-98.8787, 29.3555, -97.9653, 29.5689], // Boundary for San Antonio
     proximity: {
         longitude: -98.4946,
         latitude: 29.4252
     } // Coordinates of San Antonio
 });
-
+29.35554277897762, -98.87873296826862
 // Add the geocoder to the map
 map.addControl(geocoder);
 
