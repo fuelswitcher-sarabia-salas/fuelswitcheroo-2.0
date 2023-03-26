@@ -5,8 +5,7 @@ body {
 
 #map {
     position: absolute;
-    top: 50px;
-    bottom: 0px;
+    height: 90%;
     width: 100%;
 }
 
@@ -14,3 +13,10 @@ body {
     fill: #186e0b;
 }
 
+nav {
+    color: #186e0b;
+}
+
+.title {
+
+}

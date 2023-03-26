@@ -18,11 +18,9 @@ mapboxgl.accessToken = mapBoxKey;
 
 
 marker.on('dragend', function(e){
-    console.log(marker)
     let html = "";
     let longlat = e.target._lngLat;
-    console.log(longlat)
-    console.log( $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}&GAS_STATION`));
+
     $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}&type=GAS_STATION`).done(function (data) {
         for(let i = 0; i <= 4; i++) {
             const station = data.features[i];
@@ -83,7 +81,6 @@ function searchStation(searchString) {
             center: results,
             zoom: 12
         };
-        console.log("results" + results[1]);
         map.flyTo(myOptionsObj);
         marker.setLngLat(results);
 
