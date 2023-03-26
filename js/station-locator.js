@@ -10,8 +10,12 @@ const map = new mapboxgl.Map({
 const marker = new mapboxgl.Marker ({ // Initialize a new marker
     draggable: true
 })
-    .setLngLat([-98.491142,29.424349])// Marker [lng, lat] coordinates
+    .setLngLat([-98.491142, 29.424349])// Marker [lng, lat] coordinates
     .addTo(map); // Add the marker to the map
+
+mapboxgl.accessToken = mapBoxKey;
+
+
 
 marker.on('dragend', function(e){
     console.log(marker)
@@ -71,8 +75,8 @@ map.on('load', () => {
 });
 
 
-
-function geoCodeBuildWeather(searchString) {
+////Search functionality
+function searchStation(searchString) {
     let html = "";
     geocode(searchString, mapBoxKey).then(function (results) {
         let myOptionsObj = {
@@ -92,7 +96,7 @@ function geoCodeBuildWeather(searchString) {
                 const fuelType = station.properties.fuel_type_code;
                 const distance = station.properties.distance;
 
-                if (fuelType === "CNG" || fuelType === "ELEC" || fuelType === "HY") { // check if fuel type is GAS or ELEC
+                if (fuelType === "BD" || fuelType === "ELEC" || fuelType === "HY") { // check if fuel type is GAS or ELEC
                     // Create a marker for the station
                     const stationMarker = new mapboxgl.Marker()
                         .setLngLat(lngLat)
@@ -112,13 +116,8 @@ function geoCodeBuildWeather(searchString) {
 
 $("#myBtn").on("click", function(e){
     e.preventDefault();
-    geoCodeBuildWeather($("#searchInput").val());
+    searchStation($("#searchInput").val());
 })
-
-
-
-
-
 
 
 
