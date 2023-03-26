@@ -18,9 +18,9 @@ marker.on('dragend', function(e){
     let html = "";
     let longlat = e.target._lngLat;
     console.log(longlat)
-    console.log( $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}`));
-    $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}`).done(function (data) {
-        for(let i = 0; i < data.features.length; i++) {
+    console.log( $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}&GAS_STATION`));
+    $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}&type=GAS_STATION`).done(function (data) {
+        for(let i = 0; i <= 4; i++) {
             const station = data.features[i];
             const lngLat = station.geometry.coordinates;
             const name = station.properties.station_name;
@@ -28,33 +28,63 @@ marker.on('dragend', function(e){
             const fuelType = station.properties.fuel_type_code;
             const distance = station.properties.distance;
 
-            // Create a marker for the gas station
-            const stationMarker = new mapboxgl.Marker()
-                .setLngLat(lngLat)
-                .addTo(map);
+            if (fuelType === "CNG" || fuelType === "ELEC" || fuelType === "HY") { // check if fuel type is GAS or ELEC
+                // Create a marker for the station
+                const stationMarker = new mapboxgl.Marker()
+                    .setLngLat(lngLat)
+                    .addTo(map);
 
-            // Create a popup for the gas station
-            const popup = new mapboxgl.Popup()
-                .setHTML(`<h3>${name}</h3><p>Address: ${address}</p><p>Fuel type: ${fuelType}</p><p>Distance: ${distance} miles</p>`);
+                // Create a popup for the station
+                const popup = new mapboxgl.Popup()
+                    .setHTML(`<h3>${name}</h3><p>Address: ${address}</p><p>Fuel type: ${fuelType}</p><p>Distance: ${distance} miles</p>`);
 
-            // Attach the popup to the marker
-            stationMarker.setPopup(popup);
+                // Attach the popup to the marker
+                stationMarker.setPopup(popup);
+            }
         }
     })
 });
+
+// After the map style has loaded on the page,
+// add a source layer and default styling for a single point
+map.on('load', () => {
+    map.addSource('single-point', {
+        'type': 'geojson',
+        'data': {
+            'type': 'FeatureCollection',
+            'features': []
+        }
+    });
+
+    map.addLayer({
+        'id': 'point',
+        'source': 'single-point',
+        'type': 'circle',
+        'paint': {
+            'circle-radius': 10,
+            'circle-color': '#d641ff'
+        }
+    });
+
+    // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
+    //  Add a marker at the result's coordinates
+});
+
+
 
 function geoCodeBuildWeather(searchString) {
     let html = "";
     geocode(searchString, mapBoxKey).then(function (results) {
         let myOptionsObj = {
             center: results,
-            zoom: 15
+            zoom: 12
         };
+        console.log("results" + results[1]);
         map.flyTo(myOptionsObj);
         marker.setLngLat(results);
 
-        $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${fuelStationsKey}&longitude=${longlat.lng}&latitude=${longlat.lat}&type=GAS_STATION`).done(function (data) {
-            for (let i = 0; i <= 4; i++) {
+        $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${results[0]}&latitude=${results[1]}&type=GAS_STATION`).done(function (data) {
+            for(let i = 0; i <= 4; i++) {
                 const station = data.features[i];
                 const lngLat = station.geometry.coordinates;
                 const name = station.properties.station_name;
@@ -78,63 +108,12 @@ function geoCodeBuildWeather(searchString) {
             }
         })
     })
-
-
-    function onDragEnd() {
-        let lngLat = marker.getLngLat();
-        let arrStation = [lngLat.lng, lngLat.lat];
-        searchStation(arrStation)
-
-    }
-
-    marker.on('dragend', onDragEnd);
-
-
-    const geocoder = new MapboxGeocoder({
-        // Initialize the geocoder
-        accessToken: mapboxgl.accessToken, // Set the access token
-        mapboxgl: mapboxgl, // Set the mapbox-gl instance
-        marker: false, // Do not use the default marker style
-        placeholder: 'Search for places in San Antonio', // Placeholder text for the search bar
-        bbox: [-98.8787, 29.3555, -97.9653, 29.5689], // Boundary for San Antonio
-        proximity: {
-            longitude: -98.4946,
-            latitude: 29.4252
-        } // Coordinates of San Antonio
-    });
-    29.35554277897762, -98.87873296826862
-// Add the geocoder to the map
-    map.addControl(geocoder);
-
-// After the map style has loaded on the page,
-// add a source layer and default styling for a single point
-    map.on('load', () => {
-        map.addSource('single-point', {
-            'type': 'geojson',
-            'data': {
-                'type': 'FeatureCollection',
-                'features': []
-            }
-        });
-
-        map.addLayer({
-            'id': 'point',
-            'source': 'single-point',
-            'type': 'circle',
-            'paint': {
-                'circle-radius': 10,
-                'circle-color': '#448ee4'
-            }
-        });
-
-        // Listen for the `result` event from the Geocoder // `result` event is triggered when a user makes a selection
-        //  Add a marker at the result's coordinates
-        geocoder.on('result', (event) => {
-            map.getSource('single-point').setData(event.result.geometry);
-        });
-
-    });
 }
+
+$("#myBtn").on("click", function(e){
+    e.preventDefault();
+    geoCodeBuildWeather($("#searchInput").val());
+})
 
 
 
