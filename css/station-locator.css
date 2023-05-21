@@ -9,11 +9,122 @@ body {
     width: 100%;
 }
 
-.mapboxgl-marker path {
-    fill: #186e0b;
-}
-
 nav {
     color: #186e0b;
 }
 
+/*LEGEND*/
+h2,
+h3 {
+    margin: 10px;
+    font-size: 18px;
+}
+
+h3 {
+    font-size: 16px;
+}
+
+p {
+    margin: 10px;
+}
+
+/**
+* Create a position for the map
+* on the page */
+
+/**
+* Set rules for how the map overlays
+* (information box and legend) will be displayed
+* on the page. */
+.map-overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #fff;
+    margin-right: 20px;
+    font-family: Arial, sans-serif;
+    overflow: auto;
+    border-radius: 3px;
+}
+
+#features {
+    top: 0;
+    height: 25vh;
+    margin-top: 80px;
+    width: 30vw;
+}
+
+#legend {
+    padding: 10px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    line-height: 18px;
+    height: 150px;
+    margin-bottom: 40px;
+    width: 100px;
+}
+
+.legend-key {
+    display: inline-block;
+    border-radius: 20%;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+}
+
+.contents-in-legend{
+    margin: 20px;
+}
+
+/*marker legend*/
+.fuel-circle-elec{
+    margin-left: 10px;
+    margin-top: 20px;
+    height: 20px;
+    width: 20px;
+    background-color:  #2b4881;
+    display: inline-block;
+}
+
+.fuel-circle-cng{
+    margin-left: 10px;
+    margin-top: 20px;
+    height: 20px;
+    width: 20px;
+    background-color: #43ff43;
+    display: inline-block;
+}
+
+.fuel-circle-hy{
+    margin-left: 10px;
+    margin-top: 20px;
+    height: 20px;
+    width: 20px;
+    background-color: #ff0000;
+    display: inline-block;
+}
+
+.where-you-are{
+    margin-left: 10px;
+    margin-top: 20px;
+    height: 20px;
+    width: 20px;
+    background-color: rgb(63, 177, 206);
+    display: inline-block;
+}
+
+.para-space{
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    #features {
+        top: 0;
+        height: 25vh;
+        margin-top: 80px;
+        width: 50vw;
+    }
+
+    .contents-in-legend{
+        margin: 20px;
+    }
+}
