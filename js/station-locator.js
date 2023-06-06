@@ -7,26 +7,6 @@ const map = new mapboxgl.Map({
     zoom: 12 // Starting zoom level
 });
 
-// let dragStart = '#FF0000';
-// let dragDrop = '#00FF00';
-//
-// let marker = new mapboxgl.Marker({
-//     color: dragDrop,
-//     draggable: true
-// })
-//     .setLngLat([-98.491142, 29.424349])// Marker [lng, lat] coordinates
-//     .addTo(map); // Add the marker to the map
-//
-// mapboxgl.accessToken = mapBoxKey;
-//
-// marker.on('dragstart', function(){ //when marker is dragged it'll change the color
-//     marker.style.color = '#FF0000';
-// });
-//
-// marker.on('dragend', function(){ //when marker is dragged it'll change the color
-//     marker.style.color = '#00FF00';
-// });
-
 const marker = new mapboxgl.Marker ({ // Initialize a new marker
     draggable: true
 })
@@ -42,7 +22,7 @@ marker.on('dragend', function(e){
     let longlat = e.target._lngLat;
 
     $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}&type=GAS_STATION`).done(function (data) {
-        for(let i = 0; i <= 4; i++) {
+        for(let i = 0; i <= 10; i++) {
             const station = data.features[i];
             const lngLat = station.geometry.coordinates;
             const name = station.properties.station_name;
@@ -137,7 +117,6 @@ map.on('load', () => {
         'source': 'single-point',
         'type': 'circle',
         'paint': {
-            'circle-radius': 10,
             'circle-color': '#d641ff'
         }
     });
