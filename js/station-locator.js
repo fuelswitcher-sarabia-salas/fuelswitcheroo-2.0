@@ -30,20 +30,6 @@ marker.on('dragend', function(e){
             const fuelType = station.properties.fuel_type_code;
             const distance = station.properties.distance;
 
-            // if (fuelType === "CNG" || fuelType === "ELEC" || fuelType === "HY") { // check if fuel type is GAS or ELEC
-            //     // Create a marker for the station
-            //     const stationMarker = new mapboxgl.Marker()
-            //         .setLngLat(lngLat)
-            //         .addTo(map);
-            //
-            //     // Create a popup for the station
-            //     const popup = new mapboxgl.Popup()
-            //         .setHTML(`<h3>${name}</h3><p>Address: ${address}</p><p>Fuel type: ${fuelType}</p><p>Distance: ${distance} miles</p>`);
-            //
-            //     // Attach the popup to the marker
-            //     stationMarker.setPopup(popup);
-            // }
-
 
             if(fuelType === "CNG") {
                 //Create a marker for the station
