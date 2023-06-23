@@ -196,5 +196,9 @@ $("#myBtn").on("click", function(e){
     searchStation($("#searchInput").val());
 })})
 
+let toggle = document.querySelector("#toggler");
+
+
+
 
 
