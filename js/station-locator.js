@@ -98,6 +98,7 @@ $("#myBtn").on("click", function(e){
 })
 
 
+let toggle = document.querySelector("#toggler");
 
 
 
