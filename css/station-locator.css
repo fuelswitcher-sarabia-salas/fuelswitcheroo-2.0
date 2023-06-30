@@ -177,6 +177,12 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
+/*for map*/
+
+#view-legend-text{
+    position: absolute;
+}
+
 @media screen and (max-width: 576px) {
     #features {
         top: 0;
