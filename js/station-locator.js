@@ -51,6 +51,11 @@ function searchStation(searchString) {
 
                 //for hydrogen stations
                 const hy_is_retail = station.properties.hy_is_retail;
+                const hy_pressure = station.properties.hy_pressure;
+                const hy_standards = station.properties.hy_standards;
+                const hy_status_link = station.properties.hy_status_link;
+
+
 
                 if (fuelType === "CNG") {
                     //Create a marker for the station
@@ -109,7 +114,10 @@ function searchStation(searchString) {
                               <p>Address: ${address}</p>
                               <p>Fuel type: Hydrogen, ${fuelType}</p>
                               <p>Distance From You: ${distance.toFixed(2)} miles</p>
-                              <p>Is hydrogen for sale at this stations: ${hy_is_retail ? 'Yes' : 'No'} </p>`);
+                              <p>Is hydrogen for sale at this stations?: ${hy_is_retail ? 'Yes' : 'No'} </p>
+                              <p>Pressures of the hydrogen available: ${(hy_pressure === null) ? 'Unknown' : hy_pressure} </p>
+                              <p>SAE International fueling protocol standard(s) the infrastructure meets: ${(hy_standards === null) ? 'Unknown' : hy_standards} </p>
+                              <p>Website: ${(hy_status_link === null) ? 'No website' : hy_status_link} </p>`);
 
                     // Attach the popup to the marker
                     stationHY.setPopup(popup);
