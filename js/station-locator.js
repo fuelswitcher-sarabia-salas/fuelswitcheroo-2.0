@@ -25,9 +25,11 @@ function searchStation(searchString) {
         map.flyTo(myOptionsObj);
         marker.setLngLat(results);
 
-        let ELEC = ELEC;
+        let elec = 'ELEC';
 
-        $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${results[0]}&latitude=${results[1]}&type=GAS_STATION&fuel_type_code=ELEC`).done(function (data) {
+    // &fuel_type_code=ELEC
+
+        $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${results[0]}&latitude=${results[1]}&type=GAS_STATION`).done(function (data) {
             for(let i = 0; i <= 4; i++) {
                 const station = data.features[i];
                 const lngLat = station.geometry.coordinates;
@@ -35,8 +37,12 @@ function searchStation(searchString) {
                 const address = station.properties.street_address;
                 const fuelType = station.properties.fuel_type_code;
                 const distance = station.properties.distance;
+                const cng_dispenser_num = station.properties.cng_dispenser_num;
+                const hy_is_retail = station.properties.hy_is_retail;
+                const cng_fill_type_code = station.properties.cng_fill_type_code;
+                const cng_has_rng =  station.properties.cng_has_rng;
 
-                if(fuelType === "CNG") {
+                if (fuelType === "CNG") {
                     //Create a marker for the station
                     const stationCNG = new mapboxgl.Marker({
                         color: '#43ff43'
@@ -50,11 +56,14 @@ function searchStation(searchString) {
                         .setHTML(`<h4>${name}</h4>
                               <p>Address: ${address}</p>
                               <p>Fuel type: Compressed Natural Gas, ${fuelType}</p>
-                              <p>Distance From You: ${distance.toFixed(2)} miles</p>`);
+                              <p>Distance From You: ${distance.toFixed(2)} miles</p>
+                              <p>CNG dispensers installed: ${(cng_dispenser_num === null) ? "Unknown" : cng_dispenser_num}</p>
+                              <p>Dispensing capability available: ${(cng_fill_type_code === "F") ? "Fast-fill" : (cng_fill_type_code === "T") ? "Time-fill" : (cng_fill_type_code === "B") ? "Fast-fill and time-fill" : "Unknown"}</p>
+                              <p>Does the station sell renewable natural gas?: ${(cng_has_rng === "Y") ? "Yes" : "No"}</p>`);
 
                     // Attach the popup to the marker
                     stationCNG.setPopup(popup);
-                }else if(fuelType === "ELEC") {
+                } else if (fuelType === "ELEC") {
                     const stationELEC = new mapboxgl.Marker({
                         color: '#2b4881'
                     })
@@ -71,7 +80,7 @@ function searchStation(searchString) {
 
                     // Attach the popup to the marker
                     stationELEC.setPopup(popup);
-                }else if(fuelType === "HY") {
+                } else if (fuelType === "HY") {
                     const stationHY = new mapboxgl.Marker({
                         color: '#ff0000',
                     })
@@ -84,7 +93,8 @@ function searchStation(searchString) {
                         .setHTML(`<h4>${name}</h4>
                               <p>Address: ${address}</p>
                               <p>Fuel type: Hydrogen, ${fuelType}</p>
-                              <p>Distance From You: ${distance.toFixed(2)} miles</p>`);
+                              <p>Distance From You: ${distance.toFixed(2)} miles</p>
+                              <p>Is hydrogen for sale at this stations: ${hy_is_retail ? 'Yes' : 'No'} </p>`);
 
                     // Attach the popup to the marker
                     stationHY.setPopup(popup);
@@ -106,66 +116,78 @@ marker.on('dragend', function(e){
 
     $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}&type=GAS_STATION`).done(function (data) {
         for(let i = 0; i <= 10; i++) {
-            const station = data.features[i];
-            const lngLat = station.geometry.coordinates;
-            const name = station.properties.station_name;
-            const address = station.properties.street_address;
-            const fuelType = station.properties.fuel_type_code;
-            const distance = station.properties.distance;
+            for(let i = 0; i <= 4; i++) {
+                //for all the stations
+                const station = data.features[i];
+                const lngLat = station.geometry.coordinates;
+                const name = station.properties.station_name;
+                const address = station.properties.street_address;
+                const fuelType = station.properties.fuel_type_code;
+                const distance = station.properties.distance;
+
+                //for cng stations
+                const cng_dispenser_num = station.properties.cng_dispenser_num;
+                const cng_fill_type_code = station.properties.cng_fill_type_code;
+
+                //for hydrogen stations
+                const hy_is_retail = station.properties.hy_is_retail;
+
+                if (fuelType === "CNG") {
+                    //Create a marker for the station
+                    const stationCNG = new mapboxgl.Marker({
+                        color: '#43ff43'
+                    })
+                        .setLngLat(lngLat)
+                        .addTo(map);
 
 
-            if(fuelType === "CNG") {
-                //Create a marker for the station
-                const stationCNG = new mapboxgl.Marker({
-                    color: '#43ff43'
-                })
-                    .setLngLat(lngLat)
-                    .addTo(map);
-
-
-                // Create a popup for the station
-                const popup = new mapboxgl.Popup()
-                    .setHTML(`<h4>${name}</h4>
+                    // Create a popup for the station
+                    const popup = new mapboxgl.Popup()
+                        .setHTML(`<h4>${name}</h4>
                               <p>Address: ${address}</p>
                               <p>Fuel type: Compressed Natural Gas, ${fuelType}</p>
-                              <p>Distance From You: ${distance.toFixed(2)} miles</p>`);
+                              <p>Distance From You: ${distance.toFixed(2)} miles</p>
+                              <p>CNG dispensers installed: ${(cng_dispenser_num === null) ? "Unknown" : cng_dispenser_num}</p>
+                              <p>Dispensing capability available: ${(cng_fill_type_code === "F") ? "Fast-fill" : (cng_fill_type_code === "T") ? "Time-fill" : (cng_fill_type_code === "B") ? "Fast-fill and time-fill" : "Unknown"}</p>`);
 
-                // Attach the popup to the marker
-                stationCNG.setPopup(popup);
-            }else if(fuelType === "ELEC") {
-                const stationELEC = new mapboxgl.Marker({
-                    color: '#2b4881'
-                })
-                    .setLngLat(lngLat)
-                    .addTo(map);
+                    // Attach the popup to the marker
+                    stationCNG.setPopup(popup);
+                } else if (fuelType === "ELEC") {
+                    const stationELEC = new mapboxgl.Marker({
+                        color: '#2b4881'
+                    })
+                        .setLngLat(lngLat)
+                        .addTo(map);
 
 
-                // Create a popup for the station
-                const popup = new mapboxgl.Popup()
-                    .setHTML(`<h4>${name}</h4>
+                    // Create a popup for the station
+                    const popup = new mapboxgl.Popup()
+                        .setHTML(`<h4>${name}</h4>
                               <p>Address: ${address}</p>
                               <p>Fuel type: Electrical Gas, ${fuelType}</p>
                               <p>Distance From You: ${distance.toFixed(2)} miles</p>`);
 
-                // Attach the popup to the marker
-                stationELEC.setPopup(popup);
-            }else if(fuelType === "HY") {
-                const stationHY = new mapboxgl.Marker({
-                    color: '#ff0000',
-                })
-                    .setLngLat(lngLat)
-                    .addTo(map);
+                    // Attach the popup to the marker
+                    stationELEC.setPopup(popup);
+                } else if (fuelType === "HY") {
+                    const stationHY = new mapboxgl.Marker({
+                        color: '#ff0000',
+                    })
+                        .setLngLat(lngLat)
+                        .addTo(map);
 
 
-                // Create a popup for the station
-                const popup = new mapboxgl.Popup()
-                    .setHTML(`<h4>${name}</h4>
+                    // Create a popup for the station
+                    const popup = new mapboxgl.Popup()
+                        .setHTML(`<h4>${name}</h4>
                               <p>Address: ${address}</p>
                               <p>Fuel type: Hydrogen, ${fuelType}</p>
-                              <p>Distance From You: ${distance.toFixed(2)} miles</p>`);
+                              <p>Distance From You: ${distance.toFixed(2)} miles</p>
+                              <p>Is hydrogen for sale at this stations: ${hy_is_retail ? 'Yes' : 'No'} </p>`);
 
-                // Attach the popup to the marker
-                stationHY.setPopup(popup);
+                    // Attach the popup to the marker
+                    stationHY.setPopup(popup);
+                }
             }
         }
     });
