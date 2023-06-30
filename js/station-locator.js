@@ -25,7 +25,9 @@ function searchStation(searchString) {
         map.flyTo(myOptionsObj);
         marker.setLngLat(results);
 
-        $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${results[0]}&latitude=${results[1]}&type=GAS_STATION`).done(function (data) {
+        let ELEC = ELEC;
+
+        $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${results[0]}&latitude=${results[1]}&type=GAS_STATION&fuel_type_code=ELEC`).done(function (data) {
             for(let i = 0; i <= 4; i++) {
                 const station = data.features[i];
                 const lngLat = station.geometry.coordinates;
