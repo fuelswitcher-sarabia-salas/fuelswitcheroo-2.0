@@ -207,7 +207,7 @@ function btntog() {
         n=0;
     }
 
-    if (trueToggle == true){
+    if (trueToggle == false){
         legend.removeAttribute("hidden")
     } else {
         legend.setAttribute("hidden", "hidden")
