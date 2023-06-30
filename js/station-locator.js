@@ -195,7 +195,6 @@ marker.on('dragend', function(e){
     })});
 
 
-let toggle = document.querySelector("#toggle");
 let legend = document.querySelector("#features");
 let trueToggle = true;
 let n = 0;

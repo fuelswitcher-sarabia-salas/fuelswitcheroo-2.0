@@ -183,6 +183,7 @@ input:checked + .slider:before {
     position: absolute;
 }
 
+/*mobile*/
 @media screen and (max-width: 576px) {
     #features {
         top: 0;
