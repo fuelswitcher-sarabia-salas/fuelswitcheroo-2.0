@@ -31,16 +31,26 @@ function searchStation(searchString) {
 
         $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${results[0]}&latitude=${results[1]}&type=GAS_STATION`).done(function (data) {
             for(let i = 0; i <= 4; i++) {
+                //for all the stations
                 const station = data.features[i];
                 const lngLat = station.geometry.coordinates;
                 const name = station.properties.station_name;
                 const address = station.properties.street_address;
                 const fuelType = station.properties.fuel_type_code;
                 const distance = station.properties.distance;
+
+                //for cng stations
                 const cng_dispenser_num = station.properties.cng_dispenser_num;
-                const hy_is_retail = station.properties.hy_is_retail;
                 const cng_fill_type_code = station.properties.cng_fill_type_code;
-                const cng_has_rng =  station.properties.cng_has_rng;
+                const cng_has_rng = station.properties.cng_has_rng;
+                const cng_psi = station.properties.cng_psi;
+                const cng_renewable_source = station.properties.cng_renewable_source;
+                const cng_total_compression = station.properties.cng_total_compression;
+                const cng_total_storage = station.properties.cng_total_storage;
+                const cng_vehicle_class = station.properties.cng_vehicle_class;
+
+                //for hydrogen stations
+                const hy_is_retail = station.properties.hy_is_retail;
 
                 if (fuelType === "CNG") {
                     //Create a marker for the station
@@ -59,7 +69,12 @@ function searchStation(searchString) {
                               <p>Distance From You: ${distance.toFixed(2)} miles</p>
                               <p>CNG dispensers installed: ${(cng_dispenser_num === null) ? "Unknown" : cng_dispenser_num}</p>
                               <p>Dispensing capability available: ${(cng_fill_type_code === "F") ? "Fast-fill" : (cng_fill_type_code === "T") ? "Time-fill" : (cng_fill_type_code === "B") ? "Fast-fill and time-fill" : "Unknown"}</p>
-                              <p>Does the station sell renewable natural gas?: ${(cng_has_rng === "Y") ? "Yes" : "No"}</p>`);
+                              <p>Does the station sell renewable natural gas?: ${(cng_has_rng === "Y") ? "Yes" : "No"}</p>
+                              <p>PSI pressures available: ${(cng_psi === null) ? "Unkown" : cng_psi } PSI</p>
+                              <p>Type of renewable energy used to generate CNG: ${(cng_renewable_source === null) ? "Unkown" : cng_renewable_source }</p>
+                              <p>Total compressor capacity per compresso (in standard cubic feet per minute (scfm)): ${(cng_total_compression === null) ? "Unkown" : cng_total_compression }</p>
+                              <p>Total storage capacity (in standard cubic feet (scf)): ${(cng_total_storage === null) ? "Unkown" : cng_total_storage} </p>
+                              <p>Maximum vehicle size: ${(cng_total_storage === "LD") ? "Passenger vehicles (class 1-2)" : (cng_total_storage === "MD") ? "Medium-duty (class 3-5)" : (cng_total_storage === "HD") ? "Heavy-duty (class 6-8)" : "Unknown"}</p>`);
 
                     // Attach the popup to the marker
                     stationCNG.setPopup(popup);
