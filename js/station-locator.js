@@ -201,14 +201,16 @@ let trueToggle = true;
 let n = 0;
 
 function btntog() {
-    n++
-    if (n===2){
+    n++;
+    if (n===1){
         trueToggle = !trueToggle
         n=0;
     }
 
     if (trueToggle == true){
         legend.removeAttribute("hidden")
+    } else {
+        legend.setAttribute("hidden", "hidden")
     }
 
 }
