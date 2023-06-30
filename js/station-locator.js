@@ -100,6 +100,8 @@ $("#myBtn").on("click", function(e){
 })
 
 
+let toggleLegend = document.querySelector("#toggleLegend");
+
 marker.on('dragend', function(e){
     let html = "";
     let longlat = e.target._lngLat;
