@@ -32,6 +32,19 @@
             <div class="navbar-nav pb-1">
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Enter An Address" aria-label="Search" id="searchInput">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle custom-dropdown-btn" id="filterDropdown3"
+                                type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            Filter by fuel type
+                        </button>
+                        <ul class="dropdown-menu bg-petcards" aria-labelledby="Fuel Type" id="fuel-type">
+                            <li><a class="dropdown-item" href="#" data-age="All">All</a></li>
+                            <li><a class="dropdown-item" href="#" data-age="ELEC">Electrical</a></li>
+                            <li><a class="dropdown-item" href="#" data-age="CNG">Compressed Natural Gas</a></li>
+                            <li><a class="dropdown-item" href="#" data-age="HY">Hydrogen</a></li>
+                        </ul>
+                    </div>
                     <button id="myBtn" class="btn btn-success" type="submit">Search</button>
                 </form>
             </div>
@@ -40,31 +53,31 @@
 </nav>
 
 <div id="map"></div>
-<div class='map-overlay' id='features'>
-    <div class="contents-in-legend">
-        <h2>Fuel Type:</h2>
-        <div id='pd'>
-            <div>
-                <h5 class="para-space"><div class="where-you-are"></div>  Your Location</h5>
-            </div>
-        </div>
-        <div id='pd'>
-            <div>
-                <h5 class="para-space"><div class="fuel-circle-elec"></div>  Electrical: Blue Marker</h5>
-            </div>
-        </div>
-        <div id='pd'>
-            <div>
-                <h5 class="para-space"><div class="fuel-circle-cng" id="cng"></div>  Compressed Natural Gas: Green Marker</h5>
-            </div>
-        </div>
-        <div id='pd'>
-            <div>
-                <h5 class="para-space"><div class="fuel-circle-hy" id="hy"></div>  Hydrogen: Red Marker</h5>
-            </div>
-        </div>
-    </div>
-</div>
+<!--<div class='map-overlay' id='features'>-->
+<!--    <div class="contents-in-legend">-->
+<!--        <h2>Fuel Type:</h2>-->
+<!--        <div id='pd'>-->
+<!--            <div>-->
+<!--                <h5 class="para-space"><div class="where-you-are"></div>  Your Location</h5>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div id='pd'>-->
+<!--            <div>-->
+<!--                <h5 class="para-space"><div class="fuel-circle-elec"></div>  Electrical: Blue Marker</h5>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div id='pd'>-->
+<!--            <div>-->
+<!--                <h5 class="para-space"><div class="fuel-circle-cng" id="cng"></div>  Compressed Natural Gas: Green Marker</h5>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div id='pd'>-->
+<!--            <div>-->
+<!--                <h5 class="para-space"><div class="fuel-circle-hy" id="hy"></div>  Hydrogen: Red Marker</h5>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 
 
