@@ -99,9 +99,6 @@ $("#myBtn").on("click", function(e){
     searchStation($("#searchInput").val());
 })
 
-
-let toggleLegend = document.querySelector("#toggleLegend");
-
 marker.on('dragend', function(e){
     let html = "";
     let longlat = e.target._lngLat;
@@ -198,3 +195,21 @@ marker.on('dragend', function(e){
     })});
 
 
+let legend = document.querySelector("#features");
+let trueToggle = true;
+let n = 0;
+
+function btntog() {
+    n++;
+    if (n===1){
+        trueToggle = !trueToggle
+        n=0;
+    }
+
+    if (trueToggle == false){
+        legend.removeAttribute("hidden")
+    } else {
+        legend.setAttribute("hidden", "hidden")
+    }
+
+}
