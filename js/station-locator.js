@@ -195,8 +195,20 @@ marker.on('dragend', function(e){
     })});
 
 
+let toggle = document.querySelector("#toggle");
+let legend = document.querySelector("#features");
+let trueToggle = true;
+let n = 0;
 
-function btntog()
-{
+function btntog() {
+    n++
+    if (n===2){
+        trueToggle = !trueToggle
+        n=0;
+    }
+
+    if (trueToggle == true){
+        legend.removeAttribute("hidden")
+    }
 
 }
