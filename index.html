@@ -52,33 +52,51 @@
     </div>
 </nav>
 
+<div class="container">
 <div id="map"></div>
-<!--<div class='map-overlay' id='features'>-->
-<!--    <div class="contents-in-legend">-->
-<!--        <h2>Fuel Type:</h2>-->
-<!--        <div id='pd'>-->
-<!--            <div>-->
-<!--                <h5 class="para-space"><div class="where-you-are"></div>  Your Location</h5>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div id='pd'>-->
-<!--            <div>-->
-<!--                <h5 class="para-space"><div class="fuel-circle-elec"></div>  Electrical: Blue Marker</h5>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div id='pd'>-->
-<!--            <div>-->
-<!--                <h5 class="para-space"><div class="fuel-circle-cng" id="cng"></div>  Compressed Natural Gas: Green Marker</h5>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div id='pd'>-->
-<!--            <div>-->
-<!--                <h5 class="para-space"><div class="fuel-circle-hy" id="hy"></div>  Hydrogen: Red Marker</h5>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
+    <div>
+<div class="d-flex justify-content-end" style="width: auto; white-space: normal">
+    <div  class="d-flex justify-content-start">
+        <div>
+    <h4 id="view-legend-text">
+        View legend?
+    </h4>
+        </div>
+        <div>
+    <label class="switch" id="toggle">
+        <input type="checkbox" onclick="btntog()">
+        <span class="slider round"></span>
+    </label>
+        </div>
+    </div>
+</div>
+    </div>
+<div class='map-overlay' id='features' hidden="hidden">
+    <div class="contents-in-legend" id="legend">
+        <h2>Fuel Type:</h2>
+        <div class='pd'>
+            <div>
+                <h5 class="para-space"><div class="where-you-are"></div>  Your Location</h5>
+            </div>
+        </div>
+        <div class='pd'>
+            <div>
+                <h5 class="para-space"><div class="fuel-circle-elec"></div>  Electrical: Blue Marker</h5>
+            </div>
+        </div>
+        <div class='pd'>
+            <div>
+                <h5 class="para-space"><div class="fuel-circle-cng" id="cng"></div>  Compressed Natural Gas: Green Marker</h5>
+            </div>
+        </div>
+        <div class='pd'>
+            <div>
+                <h5 class="para-space"><div class="fuel-circle-hy" id="hy"></div>  Hydrogen: Red Marker</h5>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 
 
 <!--jQuery-->
