@@ -99,9 +99,6 @@ $("#myBtn").on("click", function(e){
     searchStation($("#searchInput").val());
 })
 
-
-let toggleLegend = document.querySelector("#toggleLegend");
-
 marker.on('dragend', function(e){
     let html = "";
     let longlat = e.target._lngLat;
@@ -198,3 +195,8 @@ marker.on('dragend', function(e){
     })});
 
 
+
+function btntog()
+{
+
+}
