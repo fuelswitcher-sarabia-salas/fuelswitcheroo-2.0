@@ -98,7 +98,7 @@ $("#myBtn").on("click", function(e){
 })
 
 
-let toggle = document.querySelector("#toggler");
+let toggleLegend = document.querySelector("#toggleLegend");
 
 
 
