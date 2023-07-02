@@ -131,7 +131,7 @@ p {
 }
 /* The slider */
 .slider {
-    position: absolute;
+    /*position: absolute;*/
     cursor: pointer;
     top: 0;
     left: 0;
@@ -180,7 +180,7 @@ input:checked + .slider:before {
 /*for map*/
 
 #view-legend-text{
-    position: absolute;
+    /*position: absolute;*/
 }
 
 /*mobile*/
