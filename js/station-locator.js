@@ -17,8 +17,11 @@ const marker = new mapboxgl.Marker ({ // Initialize a new marker
 
 
 
-const fuelType = document.getElementById('fuel-type');
-fuelType.addEventListener('click', e => {
+const fuelTypeDropdown = document.getElementById('fuel-type');
+const searchForm = document.querySelector('form');
+const searchInput = document.getElementById('searchInput');
+
+fuelTypeDropdown.addEventListener('click', function (e) {
     e.preventDefault();
 
     let fuelTypePicked = e.target;
@@ -27,16 +30,15 @@ fuelType.addEventListener('click', e => {
     }
 
     if (fuelTypePicked) {
-        // const animalType = animalPicked.dataset.type;
-
-        fuelType.querySelectorAll('.dropdown-item').forEach(option => {
-            option.classList.remove('active');
-        });
-
-        fuelTypePicked.classList.add('active');
-
-        console.log(fuelTypePicked.dataset.type);
+        const fuelType = fuelTypePicked.dataset.type;
+        searchStation(searchInput.value, fuelType);
     }
+});
+
+searchForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const fuelType = fuelTypeDropdown.querySelector('.active').dataset.type;
+    searchStation(searchInput.value, fuelType);
 });
 
 
@@ -44,7 +46,8 @@ fuelType.addEventListener('click', e => {
 
 
 
-function searchStation(searchString) {
+
+function searchStation(searchString, fuelType) {
     let html = "";
     geocode(searchString, mapBoxKey).then(function (results) {
         let myOptionsObj = {
@@ -58,7 +61,13 @@ function searchStation(searchString) {
 
     // &fuel_type_code=ELEC   &fuel_type=ELEC
 
-        $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&fuel_type=${CNG}&longitude=${results[0]}&latitude=${results[1]}`).done(function (data) {
+        let apiUrl = `https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${results[0]}&latitude=${results[1]}`;
+
+        if (fuelType) {
+            apiUrl += `&fuel_type=${fuelType}`;
+        }
+
+        $.get(apiUrl).done(function (data) {
             for(let i = 0; i <= 4; i++) {
                 //for all the stations
                 const station = data.features[i];
