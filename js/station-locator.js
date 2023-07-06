@@ -13,7 +13,36 @@ const marker = new mapboxgl.Marker ({ // Initialize a new marker
     .setLngLat([-98.491142, 29.424349])// Marker [lng, lat] coordinates
     .addTo(map); // Add the marker to the map
 
+
+
+
+
 const fuelType = document.getElementById('fuel-type');
+fuelType.addEventListener('click', e => {
+    e.preventDefault();
+
+    let fuelTypePicked = e.target;
+    while (fuelTypePicked && !fuelTypePicked.classList.contains('dropdown-item')) {
+        fuelTypePicked = fuelTypePicked.parentElement;
+    }
+
+    if (fuelTypePicked) {
+        // const animalType = animalPicked.dataset.type;
+
+        fuelType.querySelectorAll('.dropdown-item').forEach(option => {
+            option.classList.remove('active');
+        });
+
+        fuelTypePicked.classList.add('active');
+
+        console.log(fuelTypePicked.dataset.type);
+    }
+});
+
+
+
+
+
 
 function searchStation(searchString) {
     let html = "";
@@ -25,11 +54,11 @@ function searchStation(searchString) {
         map.flyTo(myOptionsObj);
         marker.setLngLat(results);
 
-        let elec = 'ELEC';
+        let CNG = "CNG";
 
-    // &fuel_type_code=ELEC
+    // &fuel_type_code=ELEC   &fuel_type=ELEC
 
-        $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${results[0]}&latitude=${results[1]}&type=GAS_STATION`).done(function (data) {
+        $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&fuel_type=${CNG}&longitude=${results[0]}&latitude=${results[1]}`).done(function (data) {
             for(let i = 0; i <= 4; i++) {
                 //for all the stations
                 const station = data.features[i];
@@ -121,6 +150,7 @@ function searchStation(searchString) {
 
                     // Attach the popup to the marker
                     stationHY.setPopup(popup);
+                    console.log()
                 }
             }
         })
@@ -136,7 +166,9 @@ marker.on('dragend', function(e){
     let html = "";
     let longlat = e.target._lngLat;
 
-    $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}&type=GAS_STATION`).done(function (data) {
+    let CNG = "CNG";
+
+    $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&fuel_type=${CNG}&longitude=${longlat.lng}&latitude=${longlat.lat}&type=GAS_STATION`).done(function (data) {
         for(let i = 0; i <= 10; i++) {
             for(let i = 0; i <= 4; i++) {
                 //for all the stations
