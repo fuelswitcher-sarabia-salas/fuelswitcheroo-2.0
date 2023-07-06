@@ -54,21 +54,20 @@
 
 <div class="container">
 <div id="map"></div>
+    <div style="position: relative;">
+
+<div class="d-flex justify-content-end" style="position: absolute">
     <div>
-<div class="d-flex justify-content-end" style="width: auto; white-space: normal">
-    <div  class="d-flex justify-content-start">
+        <h4 id="view-legend-text" class="d-flex justify-content-end">
+            View legend?
+        </h4>
+    </div>
         <div>
-    <h4 id="view-legend-text">
-        View legend?
-    </h4>
-        </div>
-        <div>
-    <label class="switch" id="toggle">
+    <label class="switch" id="toggle" >
         <input type="checkbox" onclick="btntog()">
-        <span class="slider round"></span>
+        <span class="slider round" style="position: absolute"></span>
     </label>
         </div>
-    </div>
 </div>
     </div>
 <div class='map-overlay' id='features' hidden="hidden">
