@@ -45,13 +45,15 @@ p {
     font-family: Arial, sans-serif;
     overflow: auto;
     border-radius: 3px;
+    /*height: 5em;*/
+    /*width: 7em;*/
 }
 
 #features {
     top: 0;
-    height: 25vh;
+    height: 20em;
     margin-top: 6vh;
-    width: 30vw;
+    width: 15em;
 }
 
 #legend {
@@ -72,7 +74,7 @@ p {
 }
 
 .contents-in-legend{
-    margin: 20px;
+    margin: 2em;
 }
 
 /*marker legend*/
@@ -115,6 +117,10 @@ p {
 .para-space{
     margin-left: 10px;
 }
+.pd {
+    margin: 0;
+}
+
 
 /*for toggle*/
 
