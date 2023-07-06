@@ -45,15 +45,13 @@ p {
     font-family: Arial, sans-serif;
     overflow: auto;
     border-radius: 3px;
-    /*height: 5em;*/
-    /*width: 7em;*/
 }
 
 #features {
     top: 0;
     height: 20em;
     margin-top: 6vh;
-    width: 15em;
+    width: 18em;
 }
 
 #legend {
@@ -80,36 +78,36 @@ p {
 /*marker legend*/
 .fuel-circle-elec{
     margin-left: 10px;
-    margin-top: 20px;
-    height: 20px;
-    width: 20px;
+    margin-top: 10px;
+    height: 12px;
+    width: 12px;
     background-color:  #2b4881;
     display: inline-block;
 }
 
 .fuel-circle-cng{
     margin-left: 10px;
-    margin-top: 20px;
-    height: 20px;
-    width: 20px;
+    margin-top: 10px;
+    height: 12px;
+    width: 12px;
     background-color: #43ff43;
     display: inline-block;
 }
 
 .fuel-circle-hy{
     margin-left: 10px;
-    margin-top: 20px;
-    height: 20px;
-    width: 20px;
+    margin-top: 10px;
+    height: 12px;
+    width: 12px;
     background-color: #ff0000;
     display: inline-block;
 }
 
 .where-you-are{
     margin-left: 10px;
-    margin-top: 20px;
-    height: 20px;
-    width: 20px;
+    margin-top: 10px;
+    height: 12px;
+    width: 12px;
     background-color: rgb(63, 177, 206);
     display: inline-block;
 }
