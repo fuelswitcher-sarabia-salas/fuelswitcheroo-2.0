@@ -13,9 +13,37 @@ const marker = new mapboxgl.Marker ({ // Initialize a new marker
     .setLngLat([-98.491142, 29.424349])// Marker [lng, lat] coordinates
     .addTo(map); // Add the marker to the map
 
-const fuelType = document.getElementById('fuel-type');
 
-function searchStation(searchString) {
+
+
+const fuelType = document.getElementById('fuel-type');
+fuelType.addEventListener('click', e => {
+    e.preventDefault();
+
+    let fuelTypePicked = e.target;
+    while (fuelTypePicked && !fuelTypePicked.classList.contains('dropdown-item')) {
+        fuelTypePicked = fuelTypePicked.parentElement;
+    }
+
+    if (fuelTypePicked) {
+        // const animalType = animalPicked.dataset.type;
+
+        fuelType.querySelectorAll('.dropdown-item').forEach(option => {
+            option.classList.remove('active');
+        });
+
+        fuelTypePicked.classList.add('active');
+
+        searchStation(searchInput.value, fuelTypePicked.dataset.type);
+    }
+});
+
+
+
+
+
+
+function searchStation(searchString, fuelType) {
     let html = "";
     geocode(searchString, mapBoxKey).then(function (results) {
         let myOptionsObj = {
@@ -25,11 +53,21 @@ function searchStation(searchString) {
         map.flyTo(myOptionsObj);
         marker.setLngLat(results);
 
-        let elec = 'ELEC';
+        let CNG = "CNG";
 
-    // &fuel_type_code=ELEC
+    // &fuel_type_code=ELEC   &fuel_type=ELEC
 
-        $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${results[0]}&latitude=${results[1]}&type=GAS_STATION`).done(function (data) {
+        let apiUrl = `https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&fuel_type=${fuelType}&longitude=${results[0]}&latitude=${results[1]}`;
+
+        if (fuelType) {
+            apiUrl += `&fuel_type=${fuelType}`;
+        }
+
+        console.log('Fuel Type:', fuelType);
+        console.log('API URL:', apiUrl);
+
+
+        $.get(apiUrl).done(function (data) {
             for(let i = 0; i <= 4; i++) {
                 //for all the stations
                 const station = data.features[i];
@@ -62,6 +100,7 @@ function searchStation(searchString) {
                 const ev_renewable_source = station.properties.ev_renewable_source;
 
 
+
                 if (fuelType === "CNG") {
                     //Create a marker for the station
                     const stationCNG = new mapboxgl.Marker({
@@ -84,7 +123,7 @@ function searchStation(searchString) {
                               <p>Type of renewable energy used to generate CNG: ${(cng_renewable_source === null) ? "Unkown" : cng_renewable_source }</p>
                               <p>Total compressor capacity per compresso (in standard cubic feet per minute (scfm)): ${(cng_total_compression === null) ? "Unkown" : cng_total_compression }</p>
                               <p>Total storage capacity (in standard cubic feet (scf)): ${(cng_total_storage === null) ? "Unkown" : cng_total_storage} </p>
-                              <p>Maximum vehicle size: ${(cng_vehicle_class === "LD") ? "Passenger vehicles (class 1-2)" : (cng_vehicle_class === "MD") ? "Medium-duty (class 3-5)" : (cng_vehicle_class === "HD") ? "Heavy-duty (class 6-8)" : "Unknown"}</p>`);
+                              <p>Maximum vehicle size: ${(cng_total_storage === "LD") ? "Passenger vehicles (class 1-2)" : (cng_total_storage === "MD") ? "Medium-duty (class 3-5)" : (cng_total_storage === "HD") ? "Heavy-duty (class 6-8)" : "Unknown"}</p>`);
 
                     // Attach the popup to the marker
                     stationCNG.setPopup(popup);
@@ -127,6 +166,7 @@ function searchStation(searchString) {
 
                     // Attach the popup to the marker
                     stationHY.setPopup(popup);
+                    console.log()
                 }
             }
         })
@@ -138,11 +178,18 @@ $("#myBtn").on("click", function(e){
     searchStation($("#searchInput").val());
 })
 
-marker.on('dragend', function(e){
+marker.on('dragend', function(e) {
     let html = "";
     let longlat = e.target._lngLat;
+    const fuelType = $('.dropdown-item.active').data('type');
 
-    $.get(`https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}&type=GAS_STATION`).done(function (data) {
+    let apiUrl = `https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.geojson?api_key=${stationKey}&longitude=${longlat.lng}&latitude=${longlat.lat}`;
+
+    if (fuelType && fuelType !== 'All') {
+        apiUrl += `&fuel_type=${fuelType}`;
+    }
+
+    $.get(apiUrl).done(function(data) {
         for(let i = 0; i <= 10; i++) {
             for(let i = 0; i <= 4; i++) {
                 //for all the stations
