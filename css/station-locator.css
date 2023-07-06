@@ -50,7 +50,7 @@ p {
 #features {
     top: 0;
     height: 25vh;
-    margin-top: 80px;
+    margin-top: 6vh;
     width: 30vw;
 }
 
@@ -188,7 +188,7 @@ input:checked + .slider:before {
     #features {
         top: 0;
         height: 25vh;
-        margin-top: 100px;
+        margin-top: 5vh;
         width: 50vw;
     }
 
