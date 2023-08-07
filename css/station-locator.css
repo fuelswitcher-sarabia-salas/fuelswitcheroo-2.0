@@ -199,20 +199,17 @@ input:checked + .slider:before {
     .contents-in-legend{
         margin: 20px;
     }
+    #map {
+        margin-top: 70vh;
+    }
 }
 
 #map {
     border: 3px solid black;
-    margin: 5em 1em;
     height: 70vh;
     width: 100vw;
     display: flex;
     justify-content: center;
-    /*right: 0px;*/
-    /*left: 0px;*/
-    /*top: 0px;*/
-    /*bottom: 0px;*/
-    /*margin-left: 0px;*/
-    /*margin-right: 0px;*/
-
+    overflow: hidden;
+    margin-top: 30vh;
 }
