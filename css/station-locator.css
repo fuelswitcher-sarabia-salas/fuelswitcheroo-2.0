@@ -4,7 +4,7 @@ body {
 }
 
 #map {
-    position: absolute;
+    /*position: absolute;*/
     height: 100%;
     width: 100%;
 }
@@ -200,7 +200,7 @@ input:checked + .slider:before {
         margin: 20px;
     }
     #map {
-        margin-top: 70vh;
+        margin-top: 100vh;
     }
 }
 
