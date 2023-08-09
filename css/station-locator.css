@@ -4,9 +4,10 @@ body {
 }
 
 #map {
-    /*position: absolute;*/
-    height: 100%;
-    width: 100%;
+    border: 3px solid black;
+    margin: 5em 1em;
+    /*height: 40vh;*/
+    /*width: 20vw;*/
 }
 
 nav {

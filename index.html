@@ -56,7 +56,6 @@
     <h5>What do we do here? Good Question!</h5>
     <p>We want to help you, the user, have easier access to find alternative fuel stations. Using live data from the United States government's National Renewable Energy Laboratory, we created this application in which you can either search, or move the marker on the map, to locate alternative fuels that correspond to your vehicle closest to you. You can also filter the particular fuel type that you're interested in at the top of this site for easier access. Depending on your fuel type, you can check our legend for the color of fuel type you need. We're one step closer to helping Mother Earth!</p>
 </div>
-<div class="col-12 fade-in-text position-absolute top-50 start-50 translate-middle" id="map"></div>
 <div class="d-flex justify-content-end mt-1" style="position: relative">
     <div class="d-flex justify-content-end" style="position: absolute">
         <div>
@@ -69,45 +68,47 @@
             </label>
         </div>
 
-    <div class='map-overlay' id='features' hidden="hidden">
-        <div class="contents-in-legend" style="font-size: x-small">
-            <h5 style="font-weight: bolder">Fuel Type:</h5>
-            <div class='pd' >
-                <div>
-                    <p class="para-space">
+        <div class='map-overlay' id='features' hidden="hidden">
+            <div class="contents-in-legend" style="font-size: x-small">
+                <h5 style="font-weight: bolder">Fuel Type:</h5>
+                <div class='pd' >
+                    <div>
+                        <p class="para-space">
                         <div class="where-you-are"></div>
                         Your Location
-                    </p>
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class='pd'>
-                <div>
-                    <p class="para-space">
+                <div class='pd'>
+                    <div>
+                        <p class="para-space">
                         <div class="fuel-circle-elec"></div>
                         Electrical: Blue Marker
-                    </p>
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class='pd'>
-                <div>
-                    <p class="para-space">
+                <div class='pd'>
+                    <div>
+                        <p class="para-space">
                         <div class="fuel-circle-cng" id="cng"></div>
                         Compressed Natural Gas: Green Marker
-                    </p>
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class='pd'>
-                <div>
-                    <p class="para-space">
+                <div class='pd'>
+                    <div>
+                        <p class="para-space">
                         <div class="fuel-circle-hy" id="hy"></div>
                         Hydrogen: Red Marker
-                    </p>
+                        </p>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
 </div>
+<div  id="map"></div>
+
 
 
 <!--jQuery-->
